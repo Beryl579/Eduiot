@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduIoT - Platform Belajar Python & Teknik Elektro</title>
+    
+    <!-- Meta tags for SEO & Link sharing -->
+    <meta name="description" content="LMS Modern untuk belajar Fundamental Python, Ilmu Teknik Elektro, dan Data Science untuk Internet of Things.">
+    <meta name="theme-color" content="#2563eb">
+
+    <!-- Tailwind CSS (via CDN for local prototyping) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.4s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body class="flex h-screen overflow-hidden antialiased text-slate-800">
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebar-backdrop" onclick="toggleMobileMenu()" class="fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden transition-opacity opacity-0"></div>
+
+    <!-- Desktop & Mobile Sidebar Navigation -->
+    <aside id="sidebar" class="w-72 bg-white border-r border-slate-200 flex flex-col z-50 shadow-2xl md:shadow-[4px_0_24px_rgba(0,0,0,0.02)] fixed md:relative h-full top-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
+        <!-- Logo Area -->
+        <div class="h-20 flex items-center px-8 border-b border-slate-100">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mr-3 shadow-md shadow-blue-500/20 text-white shadow-inner">
+                <i class="fa-solid fa-microchip text-xl"></i>
+            </div>
+            <span class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600 tracking-tight">EduIoT</span>
+        </div>
+        
+        <!-- Menu Items -->
+        <div class="flex-1 overflow-y-auto px-5 py-6 hide-scrollbar">
+            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 px-3">Menu Utama</p>
+            <nav class="space-y-1.5" id="nav-menu">
+                <a href="#" id="nav-dashboard" class="flex items-center px-4 py-3.5 text-sm font-semibold rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all group">
+                    <i class="fa-solid fa-house w-6 text-center text-slate-400 group-hover:text-blue-500 transition-colors"></i> 
+                    <span class="ml-2">Dashboard</span>
+                </a>
+                <a href="#" id="nav-modules" class="flex items-center px-4 py-3.5 text-sm font-semibold rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all group">
+                    <i class="fa-solid fa-book-open w-6 text-center text-slate-400 group-hover:text-blue-500 transition-colors"></i> 
+                    <span class="ml-2">Modul Pembelajaran</span>
+                </a>
+                <a href="#" id="nav-iot" class="flex items-center px-4 py-3.5 text-sm font-semibold rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all group">
+                    <i class="fa-solid fa-chart-line w-6 text-center text-slate-400 group-hover:text-blue-500 transition-colors"></i> 
+                    <span class="ml-2">IoT Dashboard</span>
+                    <span class="ml-auto flex h-2 w-2 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                </a>
+                <a href="#" id="nav-projects" class="flex items-center px-4 py-3.5 text-sm font-semibold rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all group">
+                    <i class="fa-solid fa-gamepad w-6 text-center text-slate-400 group-hover:text-blue-500 transition-colors"></i> 
+                    <span class="ml-2">Mini Proyek</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- User Profile Area -->
+        <div class="p-5 mt-auto border-t border-slate-100 bg-slate-50/50">
+            <div class="flex items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:border-slate-300 transition-colors">
+                <div class="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">
+                    IS
+                </div>
+                <div class="ml-3 overflow-hidden">
+                    <p class="text-sm font-bold text-slate-800 truncate">IoT Student</p>
+                    <p class="text-xs text-slate-500 font-medium">Basic Plan</p>
+                </div>
+                <i class="fa-solid fa-gear ml-auto text-slate-400 hover:text-slate-600"></i>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative bg-[#f8fafc]">
+        
+        <!-- Mobile Header (Visible only on small screens) -->
+        <header class="md:hidden h-16 bg-white border-b border-slate-200 flex items-center justify-between px-5 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center">
+                <i class="fa-solid fa-microchip text-blue-600 text-xl mr-2"></i>
+                <span class="text-xl font-black text-slate-800 tracking-tight">EduIoT</span>
+            </div>
+            <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-50 text-slate-600 hover:bg-slate-100 focus:outline-none transition-colors">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+        </header>
+
+        <!-- Dynamic Content Area -->
+        <div class="flex-1 overflow-y-auto px-4 py-8 md:px-10 lg:px-12 scroll-smooth">
+            <div id="content-area" class="max-w-6xl mx-auto w-full pb-20">
+                <!-- Javascript will inject page contents here -->
+                <div class="h-full flex items-center justify-center">
+                    <div class="flex flex-col items-center justify-center space-y-4">
+                        <i class="fa-solid fa-circle-notch fa-spin text-4xl text-blue-500"></i>
+                        <p class="text-slate-500 font-medium animate-pulse">Memuat EduIoT LMS...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Watermark @beryl nathaniel sinaga -->
+    <div class="fixed bottom-4 right-4 z-50 pointer-events-none opacity-60 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm border border-slate-200 transition-opacity hover:opacity-100">
+        <p class="text-[11px] font-bold text-slate-600 tracking-wider">
+            <i class="fa-solid fa-code text-blue-500 mr-1.5"></i> @BERYL NATHANIEL SINAGA
+        </p>
+    </div>
+
+    <!-- Inline Script Anti-Cache untuk Menu HP -->
+    <script>
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            if(sidebar && backdrop) {
+                sidebar.classList.toggle('-translate-x-full');
+                backdrop.classList.toggle('hidden');
+                setTimeout(() => backdrop.classList.toggle('opacity-0'), 10);
+            }
+        }
+    </script>
+
+    <!-- Modular JS App Entry Point -->
+    <script type="module" src="js/app.js"></script>
+
+</body>
+</html>
